@@ -31,3 +31,5 @@ override.tf.json
 terraform.tfvars
 *.key
 *.crt
+*.p12
+*.p12.json
