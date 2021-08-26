@@ -1,0 +1,60 @@
+version: ""
+
+formatter: <FORMATTER_NAME>
+
+header-from: main.tf
+footer-from: ""
+
+sections:
+  hide: []
+  show: []
+
+  hide-all: false # deprecated in v0.13.0, removed in v0.15.0
+  show-all: true  # deprecated in v0.13.0, removed in v0.15.0
+
+content: |-
+  # Create Volterra P12 Credential
+  This module will take a Volterra API Token and generate a Volterra P12 credential for use with vesctl and Terraform.
+
+  The module leverages Terraform local_exec so there are some system requirements you should be aware of:
+   - linux based host
+   - curl
+   - jq 
+   - base64 
+
+  {{ .Header }}
+
+  {{ .Providers }}
+
+  {{ .Inputs }}
+
+  {{ .Outputs }}
+
+output:
+  file: ""
+  mode: inject
+  template: |-
+    <!-- BEGIN_TF_DOCS -->
+    {{ .Content }}
+    <!-- END_TF_DOCS -->
+
+output-values:
+  enabled: false
+  from: ""
+
+sort:
+  enabled: true
+  by: name
+
+settings:
+  anchor: true
+  color: true
+  default: true
+  description: false
+  escape: true
+  html: true
+  indent: 2
+  lockfile: true
+  required: true
+  sensitive: true
+  type: true

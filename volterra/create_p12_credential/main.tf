@@ -13,9 +13,11 @@ data "template_file" "create_p12_cert" {
 resource "null_resource" "p12" {
 
   triggers = {
-    filename = "${path.module}/volt.p12.json"
-    api_token = "${var.api_token}"
-    tenant = "${var.tenant}"
+    credential_name = "${var.credential_name}"
+    output_file     = "${path.module}/${var.credential_name}.json"
+    api_token       = "${var.api_token}"
+    tenant          = "${var.tenant}"
+    p12_file_path   = "${local.p12_file_path}"
   }
 
   provisioner "local-exec" {
@@ -24,7 +26,8 @@ resource "null_resource" "p12" {
     --header 'Authorization: APIToken ${self.triggers.api_token}' \
     --header 'Content-Type: application/json' \
     --data-raw '${data.template_file.create_p12_cert.rendered}' \
-    >${self.triggers.filename}
+    >${self.triggers.output_file}
+    cat ${self.triggers.output_file} | jq '.data' -r | base64 --decode > ${self.triggers.p12_file_path}/${self.triggers.credential_name}.p12
     EOF
     environment = {
       APIToken = var.api_token
@@ -37,9 +40,13 @@ resource "null_resource" "p12" {
 }
 
 data "local_file" "token" {
-  filename = null_resource.p12.triggers.filename
+  filename = null_resource.p12.triggers.output_file
 }
 
 locals {
   test = "test"
+}
+
+locals {
+  p12_file_path = var.p12_file_path != "" ? var.p12_file_path : path.module
 }
