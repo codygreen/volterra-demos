@@ -4,8 +4,8 @@ This module will take a Volterra API Token and generate a Volterra P12 credentia
 The module leverages Terraform local_exec so there are some system requirements you should be aware of:
  - linux based host
  - curl
- - jq 
- - base64 
+ - jq
+ - base64
 
 
 

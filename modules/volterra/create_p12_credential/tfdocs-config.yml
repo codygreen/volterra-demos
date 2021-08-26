@@ -19,8 +19,8 @@ content: |-
   The module leverages Terraform local_exec so there are some system requirements you should be aware of:
    - linux based host
    - curl
-   - jq 
-   - base64 
+   - jq
+   - base64
 
   {{ .Header }}
 
